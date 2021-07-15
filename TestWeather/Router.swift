@@ -9,9 +9,8 @@ import UIKit
 
 protocol RouterMain {
     var navigationController: UINavigationController? { get set }
-    var tableviewController: UITableViewController? { get set }
     var assemblyBuilder: AssemblyBuilderProtocol? { get set }
-    init(tableviewController: UITableViewController, assemblyBuilder: AssemblyBuilderProtocol)
+    init(navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol)
 }
 
 protocol RouterProtocol: RouterMain {
@@ -22,12 +21,10 @@ protocol RouterProtocol: RouterMain {
 
 class Router: RouterProtocol {
     var navigationController: UINavigationController?
-    var tableviewController: UITableViewController?
     var assemblyBuilder: AssemblyBuilderProtocol?
     
-    required init(tableviewController: UITableViewController, assemblyBuilder: AssemblyBuilderProtocol) {
-        self.navigationController = UINavigationController()
-        self.tableviewController = tableviewController
+    required init(navigationController: UINavigationController, assemblyBuilder: AssemblyBuilderProtocol) {
+        self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
     }
     

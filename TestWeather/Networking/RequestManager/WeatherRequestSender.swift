@@ -14,7 +14,7 @@ class WeatherRequestSender: RequestSenderProtocol {
            return URLSession(configuration: configuration)
     }
     
-    func send<Parser>(lat: String?, lon: String?, icon: String?, requestConfig config: RequestConfig<Parser>,
+    func send<Parser>(lat: Double?, lon: Double?, icon: String?, requestConfig config: RequestConfig<Parser>,
                          completionHandler: @escaping (Result<Parser.Model>) -> Void) where Parser: WeatherParserProtocol {
         guard let urlRequest = config.request.urlRequest(lat: lat, lon: lon) else {
                completionHandler(Result.error("URL string can't be parsed to URL"))

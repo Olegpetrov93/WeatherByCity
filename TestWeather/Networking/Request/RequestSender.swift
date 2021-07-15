@@ -9,7 +9,7 @@ import Foundation
 
 class WeatherRequest: WeatherRequestProtocol {
     
-    private func urlComponents(lat: String, lon: String) -> URL? {
+    private func urlComponents(lat: Double, lon: Double) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.weather.yandex.ru"
@@ -24,7 +24,7 @@ class WeatherRequest: WeatherRequestProtocol {
         return urlComponents.url
     }
     
-    func urlRequest(lat: String?, lon: String?) -> URLRequest? {
+    func urlRequest(lat: Double?, lon: Double?) -> URLRequest? {
         guard let lat = lat, let lon = lon else { return nil }
         
         guard let url = urlComponents(lat: lat, lon: lon) else { return nil }

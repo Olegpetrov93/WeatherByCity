@@ -16,8 +16,8 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
     
     func createMainModule(router: RouterProtocol) -> UITableViewController {
         let weatherRequestSender = WeatherRequestSender()
-        let networkService = NetworkService(requestSender: weatherRequestSender)
         let view = MainViewController()
+        let networkService = NetworkService(requestSender: weatherRequestSender)
         let presenter = RootTableViewControllerPresenter(view: view, networkService: networkService, router: router)
         view.presenter = presenter
         return view

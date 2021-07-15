@@ -6,7 +6,7 @@
 //
 
 protocol NetworkServiceProtocol: AnyObject {
-    func loadData(lat: String, lon: String, completionHandler: @escaping (WeatherModel?, String?) -> Void)
+    func loadData(lat: Double, lon: Double, completionHandler: @escaping (WeatherModel?, String?) -> Void)
 }
 
 class NetworkService: NetworkServiceProtocol {
@@ -17,7 +17,7 @@ class NetworkService: NetworkServiceProtocol {
         self.requestSender = requestSender
     }
     
-    func loadData(lat: String, lon: String, completionHandler: @escaping (WeatherModel?, String?) -> Void) {
+    func loadData(lat: Double, lon: Double, completionHandler: @escaping (WeatherModel?, String?) -> Void) {
         let requestConfig = RequestFactory.Request.newWeatherConfig()
         requestSender.send(lat: lat, lon: lon, icon: nil, requestConfig: requestConfig) { (result: Result<WeatherModel>) in
               switch result {

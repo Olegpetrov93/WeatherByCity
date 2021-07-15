@@ -47,7 +47,6 @@ class WeatherParser: WeatherParserProtocol {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(CurrentWeatherData.self, from: data)
-            print(decodedData)
             let factCondition = decodedData.fact.condition
             let name = decodedData.geo_object.locality.name
             let temp = decodedData.fact.temp

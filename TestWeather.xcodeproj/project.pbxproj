@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55073D5926A06AF0000DEB4E /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55073D5826A06AF0000DEB4E /* MainTableViewCell.swift */; };
+		55073D5D26A0789C000DEB4E /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55073D5C26A0789C000DEB4E /* Extension.swift */; };
 		554ECC6B269ED667004AC4DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554ECC6A269ED667004AC4DB /* AppDelegate.swift */; };
 		554ECC77269ED66C004AC4DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554ECC76269ED66C004AC4DB /* Assets.xcassets */; };
 		554ECC7A269ED66C004AC4DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 554ECC78269ED66C004AC4DB /* LaunchScreen.storyboard */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		55073D5826A06AF0000DEB4E /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		55073D5C26A0789C000DEB4E /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		554ECC67269ED667004AC4DB /* TestWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		554ECC6A269ED667004AC4DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		554ECC76269ED66C004AC4DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 				559B921F26A036390067E8A0 /* ModuleBuilder.swift */,
 				559B921126A02C160067E8A0 /* MainModule */,
 				554ECD06269EFBBD004AC4DB /* Networking */,
+				55073D5C26A0789C000DEB4E /* Extension.swift */,
 				554ECC76269ED66C004AC4DB /* Assets.xcassets */,
 				554ECC78269ED66C004AC4DB /* LaunchScreen.storyboard */,
 				554ECC7B269ED66C004AC4DB /* Info.plist */,
@@ -131,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				554ECCE5269EEB58004AC4DB /* MainViewController.swift */,
+				55073D5826A06AF0000DEB4E /* MainTableViewCell.swift */,
 			);
 			path = " View";
 			sourceTree = "<group>";
@@ -242,8 +248,10 @@
 				559B922026A036390067E8A0 /* ModuleBuilder.swift in Sources */,
 				554ECCFB269EFA8E004AC4DB /* WeatherParserProtocol.swift in Sources */,
 				554ECCFF269EFB49004AC4DB /* RequestSender.swift in Sources */,
+				55073D5926A06AF0000DEB4E /* MainTableViewCell.swift in Sources */,
 				554ECD09269EFBE2004AC4DB /* RequestFactory.swift in Sources */,
 				559B921D26A036100067E8A0 /* Router.swift in Sources */,
+				55073D5D26A0789C000DEB4E /* Extension.swift in Sources */,
 				554ECD12269EFC3D004AC4DB /* RequestSenderProtocol.swift in Sources */,
 				554ECD04269EFB76004AC4DB /* RequestProtocol.swift in Sources */,
 				554ECD0D269EFC06004AC4DB /* WeatherRequestSender.swift in Sources */,

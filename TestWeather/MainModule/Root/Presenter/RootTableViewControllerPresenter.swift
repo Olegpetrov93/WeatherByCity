@@ -12,25 +12,25 @@ import Foundation
 
 // MARK: View -
 protocol RootTableViewControllerViewProtocol: class {
-
+    func reloadView()
 }
 
 // MARK: Presenter -
 protocol RootTableViewControllerPresenterProtocol: class {
-	var view: RootTableViewControllerViewProtocol? { get set }
-    var weatherCitys: [WeatherModel]? { get set }
+    var view: RootTableViewControllerViewProtocol? { get set }
+    var cites: [City]? { get set }
     init(view: RootTableViewControllerViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol)
     func downloadCity()
-    func tapOnTheCity(city: WeatherModel)
+    func numberOfRows() -> Int
+    func currentWeatherCity(forIndexPath indexPath: IndexPath) -> WeatherModel?
     func deleteCity(city: WeatherModel)
     func addCity(city: WeatherModel)
 }
 
 class RootTableViewControllerPresenter: RootTableViewControllerPresenterProtocol {
-
-    
     weak var view: RootTableViewControllerViewProtocol?
-    var comments: [WeatherModel]?
+    var cites: [City]?
+    private var weatherCites: [WeatherModel] = []
     var router: RouterProtocol?
     weak var networkService: NetworkServiceProtocol?
     
@@ -38,13 +38,33 @@ class RootTableViewControllerPresenter: RootTableViewControllerPresenterProtocol
         self.view = view
         self.networkService = networkService
         self.router = router
+        self.cites = City.getCites()
+        self.weatherCites = []
         downloadCity()
     }
     
-    var weatherCitys: [WeatherModel]?
-    
     func downloadCity() {
-        
+        guard let cites = cites else { return }
+        for city in cites {
+                self.networkService?.loadData(lat: city.lat, lon: city.lon) { (weather, error) in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    guard let weather = weather else { return }
+                    self.weatherCites.append(weather)
+                }
+            }
+            self.view?.reloadView()
+    }
+    
+    func currentWeatherCity(forIndexPath indexPath: IndexPath) -> WeatherModel? {
+        let city = weatherCites[indexPath.row]
+        return city
+    }
+    
+    func numberOfRows() -> Int {
+        return weatherCites.count
     }
     
     func tapOnTheCity(city: WeatherModel) {
