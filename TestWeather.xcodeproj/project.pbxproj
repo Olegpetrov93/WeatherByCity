@@ -186,10 +186,26 @@
 		6361A7B426A1146C002E46FA /* DetailCity */ = {
 			isa = PBXGroup;
 			children = (
-				6361A7BD26A11530002E46FA /* DetailCityViewController.swift */,
-				6361A7BF26A115B6002E46FA /* DetailCityPresenter.swift */,
+				6361A7C326A1AEBE002E46FA /* View */,
+				6361A7C426A1AEC9002E46FA /* Presenter */,
 			);
 			path = DetailCity;
+			sourceTree = "<group>";
+		};
+		6361A7C326A1AEBE002E46FA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6361A7BD26A11530002E46FA /* DetailCityViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6361A7C426A1AEC9002E46FA /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				6361A7BF26A115B6002E46FA /* DetailCityPresenter.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

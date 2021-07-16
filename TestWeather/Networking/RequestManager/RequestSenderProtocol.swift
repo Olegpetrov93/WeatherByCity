@@ -19,5 +19,5 @@ enum Result<Model> {
 
 protocol RequestSenderProtocol {
     func send<Parser>(lat: Double?, lon: Double?, requestConfig config: RequestConfig<Parser>,
-    completionHandler: @escaping (Result<Parser.Model>) -> Void) where Parser: WeatherParserProtocol
+                      completionHandler: @escaping (Result<Parser.Model>) -> Void) where Parser: WeatherParserProtocol
 }

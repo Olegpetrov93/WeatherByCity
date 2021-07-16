@@ -19,7 +19,6 @@ protocol RootTableViewControllerViewProtocol: AnyObject {
 // MARK: Presenter -
 protocol RootTableViewControllerPresenterProtocol: AnyObject {
     var view: RootTableViewControllerViewProtocol? { get set }
-    var cites: Set<String>? { get set }
     var weatherCites: [WeatherModel] { get set }
     var filteredCityList: [WeatherModel] { get set}
     init(view: RootTableViewControllerViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol)

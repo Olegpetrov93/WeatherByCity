@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol AssemblyBuilderProtocol: AnyObject {
+protocol ModuleBuilderProtocol: AnyObject {
     func createMainModule(router: RouterProtocol) -> UITableViewController
     func createDetailModule(city: WeatherModel, router: RouterProtocol) -> UIViewController
 }
 
-class AssemblyModuleBuilder: AssemblyBuilderProtocol {
+class ModuleBuilder: ModuleBuilderProtocol {
     
     func createMainModule(router: RouterProtocol) -> UITableViewController {
         let weatherRequestSender = WeatherRequestSender()
