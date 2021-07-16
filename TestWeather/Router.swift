@@ -15,8 +15,7 @@ protocol RouterMain {
 
 protocol RouterProtocol: RouterMain {
     func initialViewController()
-    func showDetail(city: WeatherModel?)
-    func popToRoot()
+    func showDetail(city: WeatherModel)
 }
 
 class Router: RouterProtocol {
@@ -31,17 +30,14 @@ class Router: RouterProtocol {
     func initialViewController() {
         guard let navigationController = self.navigationController,
               let initialController = assemblyBuilder?.createMainModule(router: self) else { return }
+        initialController.title = "Погода"
         navigationController.viewControllers = [initialController]
     }
     
-    func showDetail(city: WeatherModel?) {
-//        guard let navigationController = self.navigationController,
-//              let detailViewController = assemblyBuilder?.createDetailModule(city: city, router: self) else { return }
-//        navigationController.pushViewController(detailViewController, animated: true)
-    }
-    
-    func popToRoot() {
-        guard let navigationController = self.navigationController else { return }
-        navigationController.popViewController(animated: true)
+    func showDetail(city: WeatherModel) {
+        guard let navigationController = self.navigationController,
+              let detailViewController = assemblyBuilder?.createDetailModule(city: city, router: self) else { return }
+        detailViewController.title = city.name
+        navigationController.pushViewController(detailViewController, animated: true)
     }
 }

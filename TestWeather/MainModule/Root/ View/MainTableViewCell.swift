@@ -11,16 +11,11 @@ class MainTableViewCell: UITableViewCell {
     
     var weatherCity : WeatherModel? {
         didSet {
-            //profileImageView.image = product?.productImage
-            cityName.text = weatherCity?.name
-            temperatureInTheCity.text = weatherCity?.condition
+            guard let weatherCity = weatherCity else { return }
+            cityName.text = weatherCity.name
+            temperatureInTheCity.text = "\(weatherCity.temp)˚C"
         }
     }
-    //    private let profileImageView: UIImageView = {
-    //        let imageView = UIImageView(frame: .zero)
-    //        imageView.contentMode = .center
-    //        return imageView
-    //    }()
     
     let cityName: UILabel = {
         let label = UILabel(frame: .zero)
@@ -45,6 +40,7 @@ class MainTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
+        
         contentView.backgroundColor = .white
         
         contentView.addSubview(cityName)
@@ -57,11 +53,11 @@ class MainTableViewCell: UITableViewCell {
         
         // Layout constraints for `cityName` and `temperatureInTheCity`
         NSLayoutConstraint.activate([
-            cityName.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            cityName.topAnchor.constraint(equalTo: contentView.topAnchor),
+            cityName.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20),
+            cityName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35),
             
-            temperatureInTheCity.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            temperatureInTheCity.topAnchor.constraint(equalTo: contentView.topAnchor)
+            temperatureInTheCity.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20),
+            temperatureInTheCity.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 35)
         ])
     }
 }

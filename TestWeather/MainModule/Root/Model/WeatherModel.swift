@@ -18,23 +18,37 @@ struct WeatherModel {
     let humidity: Double
     let lat: Double
     let lon: Double
+    
+    var conditionString: String {
+        switch condition {
+        case "clear" : return "Ясно"
+        case "partly-cloudy" : return "Малооблачно"
+        case "cloudy" : return "Облачно с прояснениями"
+        case "overcast" : return "Пасмурно"
+        case "drizzle" : return "Морось"
+        case "light-rain" : return "Небольшой дождь"
+        case "rain" : return "Дождь"
+        case "moderate-rain" : return "Умеренно сильный дождь"
+        case "heavy-rain" : return "Сильный дождь"
+        case "continuous-heavy-rain" : return "Длительный сильный дождь"
+        case "showers" : return "Ливень"
+        case "wet-snow" : return "Дождь со снегом"
+        case "light-snow" : return "Небольшой снег"
+        case "snow" : return "Снег"
+        case "snow-showers" : return "Снегопад"
+        case "hail" : return "Град"
+        case "thunderstorm" : return "гроза"
+        case "thunderstorm-with-rain" : return "Дождь с грозой"
+        case "thunderstorm-with-hail" : return "Гроза с градом"
+        default: return ""
+        }
+    }
 }
 
 struct City {
-    let lat: Double
-    let lon: Double
     
-    static func getCites() -> [City] {
-        let cityArray: [City] = [City(lat: 51.5085300, lon: -0.1257400),
-                                   City(lat: 40.7142700, lon: -74.0059700),
-                                   City(lat: 52.5243700, lon: 13.4105300),
-                                   City(lat: 1.2896700, lon: 103.8500700),
-                                   City(lat: 35.6895000, lon: 139.6917100),
-                                   City(lat: 53.9000000, lon: 27.5666700),
-                                   City(lat: 27.7016900, lon: 85.3206000),
-                                   City(lat: 24.4666700, lon: 54.3666700),
-                                   City(lat: -15.7797200, lon: -47.9297200),
-                                   City(lat: 64.1354800, lon: -21.8954100)]
+    static func getCites() -> Set<String> {
+        let cityArray: Set<String> = ["Москва", "Казань", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Нижний Новгород", "Самара", "Челябинск", "Омск", "Ростов-на-Дону", ]
         return cityArray
     }
 }

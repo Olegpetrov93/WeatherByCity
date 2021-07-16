@@ -9,73 +9,138 @@
 //
 
 import Foundation
+import CoreLocation
 
 // MARK: View -
-protocol RootTableViewControllerViewProtocol: class {
+protocol RootTableViewControllerViewProtocol: AnyObject {
     func reloadView()
 }
 
 // MARK: Presenter -
-protocol RootTableViewControllerPresenterProtocol: class {
+protocol RootTableViewControllerPresenterProtocol: AnyObject {
     var view: RootTableViewControllerViewProtocol? { get set }
-    var cites: [City]? { get set }
+    var cites: Set<String>? { get set }
+    var weatherCites: [WeatherModel] { get set }
+    var filteredCityList: [WeatherModel] { get set}
     init(view: RootTableViewControllerViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol)
-    func downloadCity()
-    func numberOfRows() -> Int
-    func currentWeatherCity(forIndexPath indexPath: IndexPath) -> WeatherModel?
-    func deleteCity(city: WeatherModel)
-    func addCity(city: WeatherModel)
+    func numberOfRows(isFiltering: Bool) -> Int
+    func tapOnTheCity(forIndexPath indexPath: IndexPath, isFiltering: Bool)
+    func filteredCity(text: String)
+    func currentWeatherCity(forIndexPath indexPath: IndexPath, isFiltering: Bool) -> WeatherModel?
+    func deleteCity(forIndexPath indexPath: IndexPath, isFiltering: Bool)
+    func checkCityContains(city: String, completionHandler: @escaping (String?, String?) -> Void)
+    func addCity(city: String)
 }
 
 class RootTableViewControllerPresenter: RootTableViewControllerPresenterProtocol {
+    
     weak var view: RootTableViewControllerViewProtocol?
-    var cites: [City]?
-    private var weatherCites: [WeatherModel] = []
     var router: RouterProtocol?
-    weak var networkService: NetworkServiceProtocol?
+    var networkService: NetworkServiceProtocol?
+    var cites: Set<String>?
+    var weatherCites: [WeatherModel] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.view?.reloadView()
+            }
+        }
+    }
+    var filteredCityList: [WeatherModel] = [] {
+        didSet {
+            DispatchQueue.main.async {
+                self.view?.reloadView()
+            }
+        }
+    }
     
     required init(view: RootTableViewControllerViewProtocol, networkService: NetworkServiceProtocol, router: RouterProtocol) {
         self.view = view
         self.networkService = networkService
         self.router = router
         self.cites = City.getCites()
-        self.weatherCites = []
-        downloadCity()
+        DispatchQueue.global().sync {
+            self.downloadCity()
+        }
     }
     
-    func downloadCity() {
+    private func downloadCity() {
         guard let cites = cites else { return }
         for city in cites {
-                self.networkService?.loadData(lat: city.lat, lon: city.lon) { (weather, error) in
-                    if let error = error {
-                        print(error)
-                        return
-                    }
-                    guard let weather = weather else { return }
-                    self.weatherCites.append(weather)
+            self.networkService?.loadData(city: city) { (weather, error) in
+                if let error = error {
+                    print(error)
+                    return
                 }
+                guard let weather = weather else { return }
+                self.weatherCites.append(weather)
             }
-            self.view?.reloadView()
+        }
     }
     
-    func currentWeatherCity(forIndexPath indexPath: IndexPath) -> WeatherModel? {
+    func currentWeatherCity(forIndexPath indexPath: IndexPath, isFiltering: Bool) -> WeatherModel? {
+        if isFiltering {
+            let city = filteredCityList[indexPath.row]
+            return city
+        }
         let city = weatherCites[indexPath.row]
         return city
     }
     
-    func numberOfRows() -> Int {
+    func numberOfRows(isFiltering: Bool) -> Int {
+        if isFiltering {
+            return filteredCityList.count
+        }
         return weatherCites.count
     }
     
-    func tapOnTheCity(city: WeatherModel) {
-        
+    func tapOnTheCity(forIndexPath indexPath: IndexPath, isFiltering: Bool) {
+        if isFiltering {
+            router?.showDetail(city: filteredCityList[indexPath.row])
+        } else {
+            router?.showDetail(city: weatherCites[indexPath.row])
+        }
     }
     
-    func deleteCity(city: WeatherModel) {
-        
+    func deleteCity(forIndexPath indexPath: IndexPath, isFiltering: Bool) {
+        if isFiltering {
+            let weatherCityIndex = indexPath.row
+            cites?.remove(filteredCityList[weatherCityIndex].name)
+            let city = filteredCityList[weatherCityIndex]
+            weatherCites.removeAll { $0.name == city.name }
+            filteredCityList.remove(at: weatherCityIndex)
+        } else {
+            let weatherCityIndex = indexPath.row
+            cites?.remove(weatherCites[weatherCityIndex].name)
+            weatherCites.remove(at: weatherCityIndex)
+        }
     }
     
-    func addCity(city: WeatherModel) {
-        
+    func addCity(city: String) {
+        cites?.insert(city)
+        self.networkService?.loadData(city: city) { (weather, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let weather = weather else { return }
+            self.weatherCites.append(weather)
+        }
+    }
+    
+    func checkCityContains(city: String, completionHandler: @escaping (String?, String?) -> Void) {
+        guard let cites = self.cites else { return }
+        if cites.contains(where: { cityArr in
+            cityArr.lowercased() == city.lowercased()
+        }) {
+            completionHandler(nil, "Этот город уже есть в списке")
+        } else {
+            completionHandler(city, nil)
+        }
+    }
+    
+    func filteredCity(text: String) {
+        self.filteredCityList = weatherCites.filter {
+            $0.name.contains(text)
+        }
     }
 }

@@ -7,9 +7,9 @@
 
 import UIKit
 
-protocol AssemblyBuilderProtocol: class {
+protocol AssemblyBuilderProtocol: AnyObject {
     func createMainModule(router: RouterProtocol) -> UITableViewController
-//    func createDetailModule(city: WeatherModel?, router: RouterProtocol) -> UIViewController
+    func createDetailModule(city: WeatherModel, router: RouterProtocol) -> UIViewController
 }
 
 class AssemblyModuleBuilder: AssemblyBuilderProtocol {
@@ -23,11 +23,10 @@ class AssemblyModuleBuilder: AssemblyBuilderProtocol {
         return view
     }
     
-//    func createDetailModule(comment: Comment?, router: RouterProtocol) -> UIViewController {
-//        let storyBoard: UIStoryboard = UIStoryboard(name: "DetailStoryboard", bundle: nil)
-//        let detailViewController = storyBoard.instantiateViewController(withIdentifier: "DetailStoryboard") as! DetailViewController
-//        let presenter = DetailPresenter(view: detailViewController, router: router, city: city)
-//        detailViewController.detailPresenter = presenter
-//        return detailViewController
-//    }
+    func createDetailModule(city: WeatherModel, router: RouterProtocol) -> UIViewController {
+        let view = DetailCityViewController()
+        let presenter = DetailCityViewControllerPresenter(view: view, router: router, city: city)
+        view.presenter = presenter
+        return view
+    }
 }
